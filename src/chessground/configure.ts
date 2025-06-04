@@ -89,8 +89,10 @@ function setRookCastle(state: State): void {
 
 function merge(base: any, extend: any) {
   for (const key in extend) {
-    if (isObject(base[key]) && isObject(extend[key])) merge(base[key], extend[key])
-    else base[key] = extend[key]
+    if (!Object.prototype.hasOwnProperty.call(extend, key)) continue;
+    if (key === "__proto__" || key === "constructor") continue;
+    if (isObject(base[key]) && isObject(extend[key])) merge(base[key], extend[key]);
+    else base[key] = extend[key];
   }
 }
 
